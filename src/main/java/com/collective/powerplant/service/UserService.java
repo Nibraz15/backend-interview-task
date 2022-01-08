@@ -6,4 +6,5 @@ import com.collective.powerplant.model.database.UserDB;
 public interface UserService {
     UserDB findByName(String name);
     UserDB addUser(User user);
+    long count();
 }

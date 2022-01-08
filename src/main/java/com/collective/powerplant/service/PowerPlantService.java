@@ -17,6 +17,7 @@ public interface PowerPlantService {
     List<PowerPlant> batchSave(PowerPlantBatchSaveRequest powerPlantBatchSaveRequest);
     FindByLocationResponse getByLocation(GetByLocationRequest request);
     List<PowerPlant> getAll();
+    long count();
     boolean exists(String name);
     GetNHighOutputAndNLowOutPutPlantsResponse getNHighOutputAndNLowOutPutPlants(GetNHighOutputAndNLowOutPutPlantsRequest request);
 }

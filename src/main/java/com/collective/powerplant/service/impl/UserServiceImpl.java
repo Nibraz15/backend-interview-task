@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
                             .password(UserUtil.hashPassword(user.getPassword()))
                             .build());
     }
+
+    @Override
+    public long count() {
+        return userDao.count();
+    }
 }

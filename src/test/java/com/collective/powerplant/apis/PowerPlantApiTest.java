@@ -20,9 +20,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +50,8 @@ public class PowerPlantApiTest {
     @Test
     public void getNameTest(){
         when(powerPlantService.getByName(anyString())).thenReturn(buildPowerPlant());
-        PowerPlant powerPlant = powerPlantService.getByName("TestPlant");
-        assertThat(powerPlant.getPowerPlantName()).isEqualTo("TestPlant");
+        ResponseEntity<PowerPlant> response = powerPlantApi.getByName(buildPowerPlant());
+        assertThat(response.getBody().getPowerPlantName()).isEqualTo("TestPlant");
 
     }
 
@@ -64,16 +63,16 @@ public class PowerPlantApiTest {
 
         when(powerPlantService.getAll()).thenReturn(powerPlants);
 
-        List<PowerPlant> plants = powerPlantApi.getAll();
-        assertThat(plants.size()).isEqualTo(powerPlants.size());
+        ResponseEntity<List<PowerPlant>> entity = powerPlantApi.getAll();
+        assertThat(entity.getBody().size()).isEqualTo(powerPlants.size());
     }
 
     @Test
     public void saveTest() {
         when(createPowerPlant.create(any(PowerPlant.class))).thenReturn(buildPowerPlant());
-        PowerPlant plant = createPowerPlant.create(buildPowerPlant());
+        ResponseEntity<PowerPlant> response = powerPlantApi.save(buildPowerPlant());
 
-        assertThat(plant.getPowerPlantName()).isEqualTo(buildPowerPlant().getPowerPlantName());
+        assertThat(response.getBody().getPowerPlantName()).isEqualTo(buildPowerPlant().getPowerPlantName());
     }
 
     @Test
@@ -103,9 +102,9 @@ public class PowerPlantApiTest {
                 .plantResponseList(new PageImpl(powerPlant)).build();
 
         when(powerPlantService.getByLocation(any(GetByLocationRequest.class))).thenReturn(findByLocationResponse);
-        FindByLocationResponse response = powerPlantService.getByLocation(GetByLocationRequest.builder().location("test").build());
+        ResponseEntity<FindByLocationResponse> response = powerPlantApi.getByLocation(GetByLocationRequest.builder().location("test").build());
 
-        assertThat(response.getLocation()).isEqualTo("test");
+        assertThat(response.getBody().getLocation()).isEqualTo("test");
     }
 
     @Test
@@ -128,10 +127,10 @@ public class PowerPlantApiTest {
 
         when(powerPlantService.getNHighOutputAndNLowOutPutPlants(any(GetNHighOutputAndNLowOutPutPlantsRequest.class))).thenReturn(dummyResponse);
 
-        GetNHighOutputAndNLowOutPutPlantsResponse response = powerPlantService.getNHighOutputAndNLowOutPutPlants(request);
+        ResponseEntity<GetNHighOutputAndNLowOutPutPlantsResponse> response = powerPlantApi.getNSorted(request);
 
-        assertThat(response.getHighOutputPlants().size()).isEqualTo(powerPlant.size());
-        assertThat(response.getLowOutputPlants().size()).isEqualTo(powerPlant.size());
+        assertThat(response.getBody().getHighOutputPlants().size()).isEqualTo(powerPlant.size());
+        assertThat(response.getBody().getHighOutputPlants().size()).isEqualTo(powerPlant.size());
 
     }
 
@@ -147,9 +146,9 @@ public class PowerPlantApiTest {
         responses.add(response);
         when(powerPlantOutputByRegion.getPowerPlantOutputByRegion((any(GetPowerPlantOutputByRegionRequest.class)))).thenReturn(responses);
 
-        List<GetPowerPlantOutputByRegionResponse> regionResponses = powerPlantApi.getPowerOutPutByLocation(request);
+        ResponseEntity<List<GetPowerPlantOutputByRegionResponse>> regionResponses = powerPlantApi.getPowerOutPutByLocation(request);
 
-        assertThat(regionResponses.get(0).getRegion()).isEqualTo(responses.get(0).getRegion());
+        assertThat(regionResponses.getBody().get(0).getRegion()).isEqualTo(responses.get(0).getRegion());
     }
 
 

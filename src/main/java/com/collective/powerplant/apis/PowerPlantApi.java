@@ -13,6 +13,8 @@ import com.collective.powerplant.model.response.GetPowerPlantOutputByRegionRespo
 import com.collective.powerplant.service.PowerPlantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,40 +29,40 @@ public class PowerPlantApi {
     private final GetPowerPlantOutputByRegion powerPlantOutputByRegion;
     private final CreatePowerPlant createPowerPlant;
 
-    @GetMapping("/get/{name}")
-    public PowerPlant getByName(@PathVariable("name") String name) {
-        return  powerPlantService.getByName(name);
+    @GetMapping("/get")
+    public ResponseEntity<PowerPlant> getByName(@RequestBody PowerPlant powerPlant) {
+        return  ResponseEntity.status(HttpStatus.OK).body(powerPlantService.getByName(powerPlant.getPowerPlantName()));
     }
 
     @GetMapping("/getAll")
-    public List<PowerPlant> getAll() {
-        return  powerPlantService.getAll();
+    public ResponseEntity<List<PowerPlant>> getAll() {
+        return  ResponseEntity.status(HttpStatus.OK).body(powerPlantService.getAll());
     }
 
     @PostMapping("/save")
-    public PowerPlant save(@RequestBody PowerPlant powerPlant){
-        return createPowerPlant.create(powerPlant);
+    public ResponseEntity<PowerPlant> save(@RequestBody PowerPlant powerPlant){
+        return ResponseEntity.status(HttpStatus.OK).body(createPowerPlant.create(powerPlant));
     }
 
     @PostMapping("/batchSave")
-    public List<PowerPlant> batchSave(@RequestBody PowerPlantBatchSaveRequest request){
-        return powerPlantService.batchSave(request);
+    public ResponseEntity<List<PowerPlant>> batchSave(@RequestBody PowerPlantBatchSaveRequest request){
+        return ResponseEntity.status(HttpStatus.OK).body(powerPlantService.batchSave(request));
     }
 
     @GetMapping("/getByLocation")
-    public FindByLocationResponse getByLocation(@RequestBody GetByLocationRequest request) {
-        return  powerPlantService.getByLocation(request);
+    public ResponseEntity<FindByLocationResponse> getByLocation(@RequestBody GetByLocationRequest request) {
+        return  ResponseEntity.status(HttpStatus.OK).body(powerPlantService.getByLocation(request));
     }
 
     @GetMapping("/getNSorted")
-    public GetNHighOutputAndNLowOutPutPlantsResponse getNSorted(@RequestBody GetNHighOutputAndNLowOutPutPlantsRequest request){
+    public ResponseEntity<GetNHighOutputAndNLowOutPutPlantsResponse> getNSorted(@RequestBody GetNHighOutputAndNLowOutPutPlantsRequest request){
         log.info("request : {}", request);
-        return powerPlantService.getNHighOutputAndNLowOutPutPlants(request);
+        return ResponseEntity.status(HttpStatus.OK).body(powerPlantService.getNHighOutputAndNLowOutPutPlants(request));
     }
 
     @GetMapping("/getPowerOutPutByLocation")
-    public List<GetPowerPlantOutputByRegionResponse> getPowerOutPutByLocation(@RequestBody GetPowerPlantOutputByRegionRequest request) {
-        return  powerPlantOutputByRegion.getPowerPlantOutputByRegion(request);
+    public ResponseEntity<List<GetPowerPlantOutputByRegionResponse>> getPowerOutPutByLocation(@RequestBody GetPowerPlantOutputByRegionRequest request) {
+        return  ResponseEntity.status(HttpStatus.OK).body(powerPlantOutputByRegion.getPowerPlantOutputByRegion(request));
     }
 
 

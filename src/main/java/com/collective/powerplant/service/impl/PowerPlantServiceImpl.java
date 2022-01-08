@@ -65,6 +65,11 @@ public class PowerPlantServiceImpl implements PowerPlantService {
     }
 
     @Override
+    public long count() {
+        return powerPlantDao.count();
+    }
+
+    @Override
     public boolean exists(String name) {
         return powerPlantDao.existsByPowerPlantName(name);
     }
