@@ -2,7 +2,7 @@
 
 This is a SpringBoot REST application using postgresSql 
 as DataBase and deployed to docker. Before making queries user need to authenticate using `login` 
-api where client will recive a token for `Authorization` header. 
+api where client will receive a token for `Authorization` header. 
 
 ##Run the application
 * Navigate to `/src/main/docker`
@@ -18,6 +18,9 @@ api where client will recive a token for `Authorization` header.
 
 
 ## Run the app
+
+
+* hosted on AWS ECS Ip: `35.87.134.100:8080`
 
 docker hosted on `localhost:8080`
 
