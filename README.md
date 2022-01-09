@@ -51,7 +51,7 @@ docker hosted on `localhost:8080`
 
 ### Request
 * Type : `Get`
-* Path : `/user/Signup`
+* Path : `/user/login`
 * RequestBody :
 ```json
 {"user" : "name", "password": "password"}
@@ -66,7 +66,7 @@ docker hosted on `localhost:8080`
 }
 ```
 
-## Get by PowerPlant name Thing
+## Get by PowerPlant name 
 
 * Type : `Get`
 * Path : `/powerPlant/get`
